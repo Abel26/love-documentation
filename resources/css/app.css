@@ -1,3 +1,347 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ========================================
+   DATATABLE PROFESSIONAL STYLING
+   ======================================== */
+
+/* DataTable Container */
+.dataTables_wrapper {
+    @apply w-full;
+}
+
+/* Search Box Styling */
+.dataTables_filter input[type="search"] {
+    @apply w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all duration-300;
+    @apply focus:border-love-500 focus:ring-4 focus:ring-love-100 focus:outline-none placeholder-love-400;
+}
+
+.dataTables_filter label {
+    @apply flex items-center gap-2 font-medium text-sm text-love-900;
+}
+
+/* Filter wrapper */
+.dataTables_filter {
+    @apply w-full;
+}
+
+/* Length Menu Styling */
+.dataTables_length select {
+    @apply px-3 py-2 border-2 border-love-200 rounded-lg font-medium text-sm text-love-900 transition-all duration-300;
+    @apply focus:border-love-500 focus:ring-4 focus:ring-love-100 focus:outline-none cursor-pointer;
+}
+
+.dataTables_length label {
+    @apply flex items-center gap-2 font-medium text-sm text-love-900;
+}
+
+/* Table Header Styling */
+#imagesTable thead th {
+    @apply bg-gradient-to-b from-love-100 to-love-50 text-love-900 font-bold text-xs uppercase tracking-widest;
+    @apply border-b-2 border-love-200 px-4 py-4;
+    @apply relative transition-colors duration-200;
+}
+
+#imagesTable thead th:hover {
+    @apply bg-gradient-to-b from-love-200 to-love-100;
+}
+
+/* Sorting indicator styling */
+#imagesTable thead th.sorting::after,
+#imagesTable thead th.sorting_asc::after,
+#imagesTable thead th.sorting_desc::after {
+    @apply ml-2 opacity-60 transition-opacity duration-200;
+}
+
+#imagesTable thead th:hover::after {
+    @apply opacity-100;
+}
+
+/* Table Body Rows */
+#imagesTable tbody tr {
+    @apply border-b border-love-100 transition-all duration-200;
+    @apply hover:bg-love-50 hover:shadow-sm;
+}
+
+#imagesTable tbody tr:hover {
+    @apply bg-love-50/80;
+}
+
+/* Table Cells */
+#imagesTable tbody td {
+    @apply px-4 py-3.5 text-sm text-love-800 font-medium;
+    @apply align-middle;
+}
+
+#imagesTable tbody td:first-child {
+    @apply border-l-4 border-love-300 pl-4 transition-all duration-200;
+}
+
+#imagesTable tbody tr:hover td:first-child {
+    @apply border-l-4 border-love-500;
+}
+
+/* Thumbnail Styling */
+#imagesTable tbody td img {
+    @apply w-12 h-12 rounded-lg object-cover shadow-sm transition-transform duration-300;
+}
+
+#imagesTable tbody tr:hover td img {
+    @apply transform scale-105 shadow-md;
+}
+
+/* Pagination Wrapper */
+.dataTables_pagination_wrapper {
+    @apply flex justify-center;
+}
+
+.dataTables_pagination_wrapper p {
+    @apply m-0 !important;
+}
+
+/* Pagination Styling */
+.dataTables_paginate {
+    @apply flex items-center justify-center gap-1.5 mt-6 pt-4 border-t border-love-100;
+    @apply flex-row flex-nowrap !important;
+}
+
+.dataTables_paginate span,
+.dataTables_paginate li {
+    @apply inline-flex !important;
+}
+
+.dataTables_paginate a,
+.dataTables_paginate .paginate_button {
+    @apply inline-flex items-center justify-center px-3 py-2 rounded-lg font-bold text-sm transition-all duration-300;
+    @apply border-2 border-love-200 text-love-700 bg-white cursor-pointer;
+    @apply min-w-10 h-10;
+    @apply hover:bg-love-50 hover:border-love-400 hover:text-love-900 hover:shadow-md;
+    @apply active:scale-95 active:shadow-inner;
+}
+
+.dataTables_paginate a.current,
+.dataTables_paginate .paginate_button.current {
+    @apply bg-gradient-to-r from-love-500 to-love-600 text-white border-love-500 shadow-lg;
+    @apply hover:from-love-600 hover:to-love-700 hover:border-love-600 hover:shadow-xl;
+    @apply font-bold;
+}
+
+.dataTables_paginate a.disabled,
+.dataTables_paginate .paginate_button.disabled {
+    @apply opacity-40 cursor-not-allowed bg-love-50 border-love-100 text-love-300;
+    @apply hover:bg-love-50 hover:border-love-100 hover:text-love-300 hover:shadow-none;
+}
+
+/* Hide SVG Icons */
+.dataTables_paginate .paginate_button svg,
+.dataTables_paginate a svg {
+    @apply hidden !important;
+}
+
+/* Info Text */
+.dataTables_info {
+    @apply text-center font-medium text-sm text-love-700 mt-4 py-2;
+}
+
+.dataTables_wrapper .dataTables_info {
+    @apply border-t border-love-100 pt-4;
+}
+
+/* Processing Message */
+.dataTables_processing {
+    @apply fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+    @apply bg-white rounded-2xl shadow-2xl p-8 border border-love-100;
+    @apply min-w-max;
+}
+
+/* Wrapper layout improvements */
+.dataTables_top {
+    @apply flex items-center justify-between gap-6 mb-4;
+    @apply pb-4 border-b border-love-100;
+}
+
+.dataTables_bottom {
+    @apply flex items-center justify-between gap-4 mt-4;
+}
+
+.dataTables_length_wrapper {
+    @apply flex items-center gap-2 order-first;
+}
+
+.dataTables_filter_wrapper {
+    @apply flex justify-end order-last;
+}
+
+.dataTables_filter_wrapper label {
+    @apply flex items-center gap-2 justify-end;
+}
+
+.dataTables_filter_wrapper input[type="search"] {
+    @apply w-80 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dataTables_top {
+        @apply flex-col-reverse gap-3;
+    }
+
+    .dataTables_filter_wrapper {
+        @apply justify-start w-full;
+    }
+
+    .dataTables_filter_wrapper label {
+        @apply justify-start;
+    }
+
+    .dataTables_filter_wrapper input[type="search"] {
+        @apply w-full !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .dataTables_top,
+    .dataTables_bottom {
+        @apply flex-col items-stretch gap-3;
+    }
+
+    .dataTables_filter_wrapper {
+        @apply justify-start order-last;
+    }
+
+    .dataTables_filter_wrapper label {
+        @apply justify-start;
+    }
+
+    .dataTables_filter_wrapper input[type="search"] {
+        @apply w-full !important;
+    }
+
+    #imagesTable {
+        @apply text-xs;
+    }
+
+    #imagesTable th,
+    #imagesTable td {
+        @apply px-2 py-2;
+    }
+
+    .dataTables_paginate {
+        @apply gap-1 justify-center;
+    }
+
+    .dataTables_paginate .paginate_button {
+        @apply px-2 py-1.5 text-xs min-w-8 h-8;
+    }
+}
+
+/* ========================================
+   FLASH MESSAGE STYLING
+   ======================================== */
+
+.alert {
+    @apply rounded-xl border-l-4 overflow-hidden transition-all duration-300;
+}
+
+.alert-success {
+    @apply bg-green-50 border-green-400 text-green-800 pl-4 pr-4 py-3 border-l-4 border-green-500;
+}
+
+.alert-success strong {
+    @apply font-bold text-green-900;
+}
+
+.alert-error {
+    @apply bg-red-50 border-red-400 text-red-800 pl-4 pr-4 py-3 border-l-4 border-red-500;
+}
+
+.alert-error strong {
+    @apply font-bold text-red-900;
+}
+
+/* ========================================
+   BUTTON STYLING ENHANCEMENTS
+   ======================================== */
+
+.btn-primary {
+    @apply inline-flex items-center px-6 py-3 bg-gradient-to-r from-love-500 to-love-600 text-white font-semibold rounded-xl shadow-lg transition-all duration-300;
+    @apply hover:from-love-600 hover:to-love-700 hover:shadow-xl hover:scale-105;
+    @apply focus:outline-none focus:ring-4 focus:ring-love-300 focus:ring-offset-2;
+    @apply active:scale-95;
+}
+
+.btn-secondary {
+    @apply inline-flex items-center px-4 py-2 bg-love-100 text-love-700 font-medium rounded-lg transition-all duration-300;
+    @apply hover:bg-love-200 hover:text-love-900;
+    @apply focus:outline-none focus:ring-2 focus:ring-love-400 focus:ring-offset-1;
+}
+
+.btn-sm {
+    @apply px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200;
+}
+
+.btn-icon {
+    @apply inline-flex items-center justify-center p-2 rounded-lg transition-all duration-200;
+    @apply hover:scale-110;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+    from {
+        @apply opacity-0 -translate-y-2;
+    }
+    to {
+        @apply opacity-100 translate-y-0;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        @apply opacity-0 -translate-x-4;
+    }
+    to {
+        @apply opacity-100 translate-x-0;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        @apply opacity-0 translate-x-4;
+    }
+    to {
+        @apply opacity-100 translate-x-0;
+    }
+}
+
+@keyframes pulse-soft {
+    0%, 100% {
+        @apply shadow-md;
+    }
+    50% {
+        @apply shadow-lg;
+    }
+}
+
+.animate-fade-in {
+    @apply animate-[fadeIn_0.3s_ease-out];
+}
+
+.animate-slide-in-left {
+    @apply animate-[slideInLeft_0.3s_ease-out];
+}
+
+.animate-slide-in-right {
+    @apply animate-[slideInRight_0.3s_ease-out];
+}
+
+.animate-pulse-soft {
+    @apply animate-[pulse-soft_2s_ease-in-out_infinite];
+}
+
+.fade-in {
+    @apply animate-fade-in;
+}

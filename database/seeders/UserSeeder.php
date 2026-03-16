@@ -15,18 +15,31 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        // Super Admin
+        User::create([
+            'username' => 'admin',
+            'name' => 'Super Admin',
+            'email' => 'admin@lovedoc.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'super_admin',
+        ]);
+
+        // Regular User - Abel
         User::create([
             'username' => 'abel',
             'name' => 'Abel',
             'email' => 'abel@lovedoc.com',
             'password' => Hash::make('abel'),
+            'role' => 'user',
         ]);
 
+        // Regular User - Akhsa
         User::create([
             'username' => 'akhsa',
             'name' => 'Akhsa',
             'email' => 'akhsa@lovedoc.com',
             'password' => Hash::make('akhsa'),
+            'role' => 'user',
         ]);
     }
 }
