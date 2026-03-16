@@ -14,6 +14,11 @@ class ImageIndexComponent extends Component
     use WithPagination;
 
     /**
+     * The layout to use for this component
+     */
+    protected $layout = 'layouts.super-admin';
+
+    /**
      * Filter by month
      */
     public $filterMonth = null;
@@ -243,10 +248,9 @@ class ImageIndexComponent extends Component
             'filterMonth' => $this->filterMonth,
             'filterStartDate' => $this->filterStartDate,
             'filterEndDate' => $this->filterEndDate,
-            'search' => $this->search,
             'showUploadModal' => $this->showUploadModal,
             'selectedImage' => $this->selectedImage,
-        ]);
+        ])->layout('layouts.super-admin');
     }
 
     /**

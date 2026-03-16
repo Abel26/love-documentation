@@ -345,3 +345,162 @@
 .fade-in {
     @apply animate-fade-in;
 }
+
+/* ========================================
+   SUPER ADMIN SIDEBAR STYLING
+   ======================================== */
+
+/* Sidebar scroll styling */
+aside::-webkit-scrollbar {
+    width: 6px;
+}
+
+aside::-webkit-scrollbar-track {
+    @apply bg-love-900;
+}
+
+aside::-webkit-scrollbar-thumb {
+    @apply bg-love-700 rounded-full;
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+    @apply bg-love-600;
+}
+
+/* Sidebar menu item hover animation */
+.sidebar-menu-item {
+    @apply transition-all duration-200;
+}
+
+.sidebar-menu-item:hover {
+    @apply transform translate-x-1;
+}
+
+/* Sidebar active indicator animation */
+.sidebar-active-indicator {
+    @apply animate-pulse;
+}
+
+/* Mobile sidebar overlay */
+.sidebar-overlay {
+    @apply bg-black/50 backdrop-blur-sm;
+}
+
+/* Sidebar transition */
+aside {
+    @apply transition-transform duration-300 ease-in-out;
+}
+
+/* Prevent body scroll when sidebar is open on mobile */
+body.sidebar-open {
+    @apply overflow-hidden;
+}
+
+/* Smooth page transitions */
+.page-content {
+    @apply transition-opacity duration-200;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .sidebar-mobile-hidden {
+        @apply -translate-x-full;
+    }
+    
+    .sidebar-mobile-visible {
+        @apply translate-x-0;
+    }
+}
+
+/* Focus states for accessibility */
+.sidebar-menu-item:focus {
+    @apply outline-none ring-2 ring-love-400 ring-offset-2 ring-offset-love-900;
+}
+
+/* User avatar fallback */
+.user-avatar {
+    @apply bg-love-700 text-white font-bold flex items-center justify-center;
+}
+
+/* ========================================
+   CURSOR LOVE EFFECT WITH GRAVITY & EXPLOSION
+   ======================================== */
+
+/* Container untuk love-love */
+.cursor-love {
+    position: fixed;
+    pointer-events: auto;
+    z-index: 9999;
+    cursor: pointer;
+    user-select: none;
+    animation: love-fall linear forwards;
+    transition: transform 0.1s ease-out;
+    will-change: transform, opacity;
+}
+
+/* Hover effect untuk love-love */
+.cursor-love:hover {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+/* Animasi gravitasi love-love */
+@keyframes love-fall {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: var(--love-opacity);
+    }
+    50% {
+        opacity: var(--love-opacity);
+    }
+    100% {
+        transform: translateY(100vh) rotate(var(--love-rotation)) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Partikel ledakan */
+.explosion-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    border-radius: 50%;
+    animation: particle-explode ease-out forwards;
+    will-change: transform, opacity;
+    box-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+}
+
+/* Animasi ledakan partikel */
+@keyframes particle-explode {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Performance optimization */
+.cursor-love,
+.explosion-particle {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+}
+
+/* Smooth animation on high-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .cursor-love,
+    .explosion-particle {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+    }
+}

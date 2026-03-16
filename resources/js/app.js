@@ -1,6 +1,7 @@
 import './bootstrap';
 import './lazy-loading';
 import './sweetalert-handler';
+import './cursor-love';
 import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs5';
