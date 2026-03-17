@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Http\Livewire;
-
 use App\Models\Image;
+use App\Models\ImageGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -12,11 +11,6 @@ use Livewire\WithPagination;
 class ImageIndexComponent extends Component
 {
     use WithPagination;
-
-    /**
-     * The layout to use for this component
-     */
-    protected $layout = 'layouts.super-admin';
 
     /**
      * Filter by month
@@ -50,12 +44,36 @@ class ImageIndexComponent extends Component
     public $showImageModal = false;
 
     /**
+     * Show gallery modal
+     */
+    public $showGalleryModal = false;
+
+    /**
+     * Selected group UUID for gallery
+     */
+    public $selectedGroupUuid = null;
+
+    /**
+     * Show delete modal
+     */
+    public $showDeleteModal = false;
+
+    /**
+     * Selected group for deletion
+     */
+    public $selectedGroup = null;
+
+    /**
      * Event listeners
      */
     protected $listeners = [
         'refreshGrid' => 'refreshGrid',
         'openEditModal' => 'openEditModal',
         'openDeleteModal' => 'openDeleteModal',
+        'openDeleteGroupModal' => 'openDeleteGroupModal',
+        'openGallery' => 'openGallery',
+        'galleryModalClosed' => 'closeGalleryModal',
+        'imageMoved' => 'refreshGrid',
     ];
 
     /**
@@ -90,7 +108,7 @@ class ImageIndexComponent extends Component
      */
     public function refreshGrid(): void
     {
-        \Log::info('ImageIndexComponent: refreshGrid called');
+        Log::info('ImageIndexComponent: refreshGrid called');
         $this->clearCache();
         $this->resetPage();
     }
@@ -161,15 +179,82 @@ class ImageIndexComponent extends Component
     }
 
     /**
+     * Open delete group modal
+     */
+    public function openDeleteGroupModal($groupUuid): void
+    {
+        $this->selectedGroup = ImageGroup::where('uuid', $groupUuid)->first();
+        if ($this->selectedGroup) {
+            $this->showDeleteModal = true;
+        }
+    }
+
+    /**
+     * Close delete modal
+     */
+    public function closeDeleteModal(): void
+    {
+        $this->showDeleteModal = false;
+        $this->selectedGroup = null;
+    }
+
+    /**
+     * Delete group and all images
+     */
+    public function deleteGroup(): void
+    {
+        if (!$this->selectedGroup) {
+            return;
+        }
+
+        // Delete all physical files first
+        foreach ($this->selectedGroup->images as $image) {
+            \Illuminate\Support\Facades\Storage::delete($image->path);
+            \Illuminate\Support\Facades\Storage::delete($image->thumbnail_path);
+        }
+
+        // Delete the group (cascade will delete image records)
+        $this->selectedGroup->delete();
+
+        $this->selectedGroup = null;
+        $this->showDeleteModal = false;
+
+        $this->emit('refreshGrid');
+
+        $this->dispatchBrowserEvent('swal:success', [
+            'title' => 'Berhasil',
+            'text' => 'Grup dan semua gambar berhasil dihapus'
+        ]);
+    }
+
+    /**
+     * Open gallery modal
+     */
+    public function openGallery($groupUuid): void
+    {
+        $this->selectedGroupUuid = $groupUuid;
+        $this->showGalleryModal = true;
+    }
+
+    /**
+     * Close gallery modal
+     */
+    public function closeGalleryModal(): void
+    {
+        $this->showGalleryModal = false;
+        $this->selectedGroupUuid = null;
+    }
+
+    /**
      * Get images with caching
      */
     public function getImagesProperty()
     {
         $cacheKey = "images_{$this->filterMonth}_{$this->filterStartDate}_{$this->filterEndDate}_{$this->search}_{$this->page}";
-        \Log::info('ImageIndexComponent: fetching images', ['cacheKey' => $cacheKey]);
+        Log::info('ImageIndexComponent: fetching images', ['cacheKey' => $cacheKey]);
 
         return Cache::remember($cacheKey, 300, function () {
-            \Log::info('ImageIndexComponent: Cache miss, fetching from DB');
+            Log::info('ImageIndexComponent: Cache miss, fetching from DB');
             $query = Image::query()
                 ->with('user')
                 ->orderBy('created_at', 'desc');
@@ -242,15 +327,18 @@ class ImageIndexComponent extends Component
      */
     public function render()
     {
-        return view('images.index', [
-            'images' => $this->images,
+        return view('livewire.image-index-component', [
             'availableMonths' => $this->getAvailableMonths(),
             'filterMonth' => $this->filterMonth,
             'filterStartDate' => $this->filterStartDate,
             'filterEndDate' => $this->filterEndDate,
             'showUploadModal' => $this->showUploadModal,
             'selectedImage' => $this->selectedImage,
-        ])->layout('layouts.super-admin');
+            'showDeleteModal' => $this->showDeleteModal,
+            'selectedGroup' => $this->selectedGroup,
+            'showGalleryModal' => $this->showGalleryModal,
+            'selectedGroupUuid' => $this->selectedGroupUuid,
+        ]);
     }
 
     /**
@@ -258,9 +346,9 @@ class ImageIndexComponent extends Component
      */
     protected function getAvailableMonths(): array
     {
-        return Image::selectRaw('DISTINCT upload_month')
-            ->orderBy('upload_month', 'desc')
-            ->pluck('upload_month')
+        return ImageGroup::selectRaw('DISTINCT event_month')
+            ->orderBy('event_month', 'desc')
+            ->pluck('event_month')
             ->toArray();
     }
 
@@ -281,8 +369,8 @@ class ImageIndexComponent extends Component
         $filterStartDate = $request->get('filterStartDate');
         $filterEndDate = $request->get('filterEndDate');
 
-        // Build query
-        $query = Image::query()->with('user');
+        // Build query for image groups
+        $query = ImageGroup::query()->with(['images', 'user']);
 
         // Apply month filter
         if ($filterMonth) {
@@ -293,9 +381,9 @@ class ImageIndexComponent extends Component
         if ($filterStartDate && $filterEndDate) {
             $query->byDateRange($filterStartDate, $filterEndDate);
         } elseif ($filterStartDate) {
-            $query->whereDate('upload_date', '>=', $filterStartDate);
+            $query->whereDate('event_date', '>=', $filterStartDate);
         } elseif ($filterEndDate) {
-            $query->whereDate('upload_date', '<=', $filterEndDate);
+            $query->whereDate('event_date', '<=', $filterEndDate);
         }
 
         // Get total records before search
@@ -304,8 +392,8 @@ class ImageIndexComponent extends Component
         // Apply search
         if ($searchValue) {
             $query->where(function ($q) use ($searchValue) {
-                $q->where('original_filename', 'like', "%{$searchValue}%")
-                    ->orWhere('caption', 'like', "%{$searchValue}%");
+                $q->where('caption', 'like', "%{$searchValue}%")
+                    ->orWhere('name', 'like', "%{$searchValue}%");
             });
         }
 
@@ -320,35 +408,43 @@ class ImageIndexComponent extends Component
 
             // Map column names to database columns
             $columnMap = [
-                'thumbnail' => 'created_at',
-                'original_filename' => 'original_filename',
+                'thumbnails' => 'event_date',
                 'caption' => 'caption',
-                'upload_date' => 'upload_date',
-                'formatted_size' => 'size',
-                'actions' => 'created_at',
+                'event_date' => 'event_date',
+                'image_count' => 'image_count',
+                'actions' => 'event_date',
             ];
 
-            $dbColumn = $columnMap[$columnName] ?? 'created_at';
+            $dbColumn = $columnMap[$columnName] ?? 'event_date';
             $query->orderBy($dbColumn, $columnSortOrder);
         } else {
-            // Default order by upload_date desc
-            $query->orderBy('upload_date', 'desc');
+            // Default order by event_date desc
+            $query->orderBy('event_date', 'desc');
         }
 
         // Apply pagination
-        $images = $query->offset($start)
+        $groups = $query->offset($start)
             ->limit($length)
             ->get();
 
         // Format data for DataTables
-        $data = $images->map(function ($image) {
+        $data = $groups->map(function ($group) {
+            // Generate thumbnail grid HTML
+            $thumbnails = $group->images->take(4)->map(function ($img) {
+                return '<img src="' . $img->thumbnail_url . '" class="w-12 h-12 object-cover rounded">';
+            })->join('');
+
+            $moreCount = max(0, $group->image_count - 4);
+            if ($moreCount > 0) {
+                $thumbnails .= '<div class="w-12 h-12 bg-love-200 rounded flex items-center justify-center text-xs text-love-600">+' . $moreCount . '</div>';
+            }
+
             return [
-                'thumbnail' => '<img src="' . $image->thumbnail_url . '" alt="' . htmlspecialchars($image->caption ?? '') . '" class="w-16 h-16 object-cover rounded-lg cursor-pointer" onclick="window.dispatchEvent(new CustomEvent(\'openImageModal\', {detail: \'' . $image->uuid . '\'}))">',
-                'original_filename' => '<span class="text-love-800">' . htmlspecialchars($image->original_filename) . '</span>',
-                'caption' => '<span class="text-love-800">' . htmlspecialchars($image->caption ?? '-') . '</span>',
-                'upload_date' => '<span class="text-love-800">' . $image->upload_date->format('d M Y') . '</span>',
-                'formatted_size' => '<span class="text-love-800">' . htmlspecialchars($image->formatted_size) . '</span>',
-                'actions' => $this->renderActions($image),
+                'thumbnails' => '<div class="flex gap-2">' . $thumbnails . '</div>',
+                'caption' => '<span class="text-love-800">' . htmlspecialchars($group->caption ?? '-') . '</span>',
+                'event_date' => '<span class="text-love-800">' . $group->event_date->format('d M Y') . '</span>',
+                'image_count' => '<span class="text-love-800">' . $group->image_count . ' gambar</span>',
+                'actions' => $this->renderGroupActions($group),
             ];
         })->toArray();
 
@@ -363,41 +459,37 @@ class ImageIndexComponent extends Component
     /**
      * Render action buttons for DataTables
      */
-    protected function renderActions($image): string
+    protected function renderGroupActions($group): string
     {
-        $uuid = $image->uuid;
+        $uuid = $group->uuid;
         // Using inline styles for colors to bypass Tailwind purging and ensure visibility
-        return '<div class="flex gap-2 justify-center items-center" style="display: flex; gap: 0.5rem; justify-content: center; align-items: center;">
+        // Added pointer-events: auto to ensure buttons are clickable
+        return '<div class="flex gap-2 justify-center items-center" style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; pointer-events: auto;">
             <button
-                onclick="window.dispatchEvent(new CustomEvent(\'openImageModal\', {detail: \'' . $uuid . '\'}))"
-                style="padding: 0.5rem; background-color: #f43f5e; color: white; border-radius: 0.75rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"
+                onclick="window.dispatchEvent(new CustomEvent(\'openGallery\', {detail: \'' . $uuid . '\'}))"
+                style="padding: 0.5rem; background-color: #6366f1; color: white; border-radius: 0.75rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"
                 onmouseover="this.style.transform=\'scale(1.1)\'"
                 onmouseout="this.style.transform=\'scale(1)\'"
-                title="Lihat"
-            >
+                title="Lihat Semua Gambar">
                 <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.1rem; height: 1.1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                 </svg>
             </button>
-            <button
-                onclick="window.dispatchEvent(new CustomEvent(\'openEditModal\', {detail: \'' . $uuid . '\'}))"
-                style="padding: 0.5rem; background-color: #3b82f6; color: white; border-radius: 0.75rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"
-                onmouseover="this.style.transform=\'scale(1.1)\'"
-                onmouseout="this.style.transform=\'scale(1)\'"
-                title="Edit"
-            >
+            <a href="' . route('image-groups.download', $uuid) . '"
+               style="padding: 0.5rem; background-color: #3b82f6; color: white; border-radius: 0.75rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; text-decoration: none;"
+               onmouseover="this.style.transform=\'scale(1.1)\'"
+               onmouseout="this.style.transform=\'scale(1)\'"
+               title="Download ZIP">
                 <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.1rem; height: 1.1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-            </button>
+            </a>
             <button
-                onclick="window.dispatchEvent(new CustomEvent(\'openDeleteModal\', {detail: \'' . $uuid . '\'}))"
+                onclick="window.dispatchEvent(new CustomEvent(\'openDeleteGroupModal\', {detail: \'' . $uuid . '\'}))"
                 style="padding: 0.5rem; background-color: #ef4444; color: white; border-radius: 0.75rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"
                 onmouseover="this.style.transform=\'scale(1.1)\'"
                 onmouseout="this.style.transform=\'scale(1)\'"
-                title="Hapus"
-            >
+                title="Hapus Grup">
                 <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.1rem; height: 1.1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>

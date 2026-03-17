@@ -368,6 +368,6 @@ class VideoIndexComponent extends Component
             'filterEndDate' => $this->filterEndDate,
             'showUploadModal' => $this->showUploadModal,
             'selectedVideo' => $this->selectedVideo,
-        ])->layout('layouts.super-admin');
+        ]);
     }
 }

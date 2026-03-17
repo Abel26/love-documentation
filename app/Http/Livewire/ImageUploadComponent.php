@@ -1,9 +1,11 @@
 <?php
-
+ 
 namespace App\Http\Livewire;
-
+ 
 use App\Models\Image;
+use App\Models\ImageGroup;
 use App\Services\ImageProcessingService;
+use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -21,9 +23,14 @@ class ImageUploadComponent extends Component
     public $images = [];
 
     /**
-     * Image captions
+     * Group caption
      */
-    public $captions = [];
+    public $groupCaption = '';
+
+    /**
+     * Event date
+     */
+    public $eventDate = '';
 
     /**
      * Upload progress
@@ -100,7 +107,16 @@ class ImageUploadComponent extends Component
         $this->uploadErrors = [];
 
         try {
-            $this->validate();
+            $this->validate([
+                'images.*' => [
+                    'required',
+                    'image',
+                    'max:51200', // 50MB
+                    'mimes:jpeg,jpg,png,gif,webp',
+                ],
+                'groupCaption' => 'nullable|string|max:1000',
+                'eventDate' => 'required|date',
+            ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed', ['errors' => $e->errors()]);
             $this->isUploading = false;
@@ -110,6 +126,16 @@ class ImageUploadComponent extends Component
         $userId = Auth::id();
         $totalImages = count($this->images);
         $uploadedImages = [];
+
+        // Create image group
+        $imageGroup = ImageGroup::create([
+            'uuid' => (string) \Illuminate\Support\Str::uuid(),
+            'user_id' => $userId,
+            'caption' => $this->groupCaption,
+            'event_date' => $this->eventDate,
+            'event_month' => Carbon::parse($this->eventDate)->format('Y-m'),
+            'image_count' => $totalImages,
+        ]);
 
         foreach ($this->images as $index => $image) {
             try {
@@ -148,7 +174,7 @@ class ImageUploadComponent extends Component
                     'mime_type' => $imageData['mime_type'],
                     'upload_date' => $imageData['upload_date'],
                     'upload_month' => $imageData['upload_month'],
-                    'caption' => $this->captions[$index] ?? null,
+                    'image_group_id' => $imageGroup->uuid,
                 ]);
 
                 $uploadedImages[] = $uploadedImage;
@@ -167,7 +193,8 @@ class ImageUploadComponent extends Component
 
         // Clear uploaded images
         $this->images = [];
-        $this->captions = [];
+        $this->groupCaption = '';
+        $this->eventDate = '';
 
         // Reset upload state
         $this->isUploading = false;
@@ -199,9 +226,7 @@ class ImageUploadComponent extends Component
     public function removeImage(int $index): void
     {
         unset($this->images[$index]);
-        unset($this->captions[$index]);
         $this->images = array_values($this->images);
-        $this->captions = array_values($this->captions);
     }
 
     /**
@@ -210,7 +235,8 @@ class ImageUploadComponent extends Component
     public function resetForm(): void
     {
         $this->images = [];
-        $this->captions = [];
+        $this->groupCaption = '';
+        $this->eventDate = '';
         $this->uploadProgress = 0;
         $this->uploadErrors = [];
     }

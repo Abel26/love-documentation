@@ -1,7 +1,8 @@
 <?php
-
+  
 use App\Http\Controllers\ProfileController;
-use App\Http\Livewire\ImageIndexComponent;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ImageGroupController;
 use App\Http\Livewire\VideoIndexComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -31,14 +32,19 @@ Route::middleware('auth')->group(function () {
 // Super Admin Routes
 Route::middleware(['auth', 'super_admin'])->group(function () {
     // Image Gallery Routes
-    Route::get('/images', ImageIndexComponent::class)->name('images.index');
+    Route::get('/images', [ImageController::class, 'index'])->name('images.index');
     // DataTables AJAX endpoint
-    Route::get('/livewire/images-table', [ImageIndexComponent::class, 'getImagesData'])->name('livewire.images-table');
+    Route::get('/livewire/images-table', [App\Http\Livewire\ImageIndexComponent::class, 'getImagesData'])->name('livewire.images-table');
+    // Download group images as ZIP
+    Route::get('/image-groups/{uuid}/download', [ImageGroupController::class, 'downloadAsZip'])->name('image-groups.download');
     
     // Video Gallery Routes
     Route::get('/videos', VideoIndexComponent::class)->name('videos.index');
     // DataTables AJAX endpoint for videos
     Route::get('/livewire/videos-table', [VideoIndexComponent::class, 'getVideosData'])->name('livewire.videos-table');
 });
+
+// Public view for shared groups
+Route::get('/image-groups/{uuid}', [ImageGroupController::class, 'show'])->name('image-groups.show');
 
 require __DIR__.'/auth.php';

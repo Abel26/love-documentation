@@ -13,4 +13,20 @@ window.Alpine = Alpine;
 window.$ = $;
 window.Swal = Swal;
 
+// Copy to clipboard
+window.addEventListener('copyToClipboard', e => {
+    const text = e.detail.text;
+    navigator.clipboard.writeText(text).then(() => {
+        console.log('Text copied to clipboard');
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+});
+
+// Open in new tab
+window.addEventListener('openInNewTab', e => {
+    const url = e.detail.url;
+    window.open(url, '_blank');
+});
+
 Alpine.start();

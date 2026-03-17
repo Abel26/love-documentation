@@ -6,12 +6,18 @@
         </div>
     @enderror
 
-    @error('images')
+    @error('groupCaption')
         <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
             {{ $message }}
         </div>
     @enderror
 
+    @error('eventDate')
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            {{ $message }}
+        </div>
+    @enderror
+ 
     <!-- Upload Errors -->
     @if(count($uploadErrors) > 0)
         <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
@@ -22,6 +28,27 @@
             </ul>
         </div>
     @endif
+
+    <!-- Group Caption Input -->
+    <div class="mb-6">
+        <label class="block text-sm font-semibold text-love-900 mb-2">Caption Grup</label>
+        <textarea
+            wire:model="groupCaption"
+            rows="3"
+            placeholder="Tambahkan caption untuk semua foto..."
+            class="w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all focus:border-love-500 focus:ring-4 focus:ring-love-100"
+        ></textarea>
+    </div>
+
+    <!-- Event Date Input -->
+    <div class="mb-6">
+        <label class="block text-sm font-semibold text-love-900 mb-2">Tanggal Kejadian</label>
+        <input
+            type="date"
+            wire:model="eventDate"
+            class="w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all focus:border-love-500 focus:ring-4 focus:ring-love-100"
+        >
+    </div>
 
     <!-- Drop Zone -->
     <div
@@ -85,18 +112,9 @@
                         </svg>
                     </button>
 
-                    <!-- Caption Input -->
-                    <div class="p-4">
-                        <input
-                            type="text"
-                            wire:model="captions.{{ $index }}"
-                            placeholder="Tambahkan caption..."
-                            class="w-full px-3 py-2 border border-love-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-love-500 focus:border-transparent"
-                        />
-                        <p class="mt-1 text-xs text-love-600">
-                            {{ $image->getClientOriginalName() }}
-                        </p>
-                    </div>
+                    <p class="p-4 text-xs text-love-600 truncate">
+                        {{ $image->getClientOriginalName() }}
+                    </p>
                 </div>
             @endforeach
         </div>

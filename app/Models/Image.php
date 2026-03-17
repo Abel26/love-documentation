@@ -49,7 +49,7 @@ class Image extends Model
         'mime_type',
         'upload_date',
         'upload_month',
-        'caption',
+        'image_group_id',
     ];
 
     /**
@@ -82,6 +82,14 @@ class Image extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the image group that owns the image.
+     */
+    public function imageGroup(): BelongsTo
+    {
+        return $this->belongsTo(ImageGroup::class, 'image_group_id');
     }
 
     /**

@@ -429,7 +429,7 @@ body.sidebar-open {
 /* Container untuk love-love */
 .cursor-love {
     position: fixed;
-    pointer-events: auto;
+    pointer-events: none;
     z-index: 9999;
     cursor: pointer;
     user-select: none;

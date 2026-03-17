@@ -1,18 +1,20 @@
-<div class="video-gallery-wrapper">
-    <!-- Page Actions -->
-    <div class="flex justify-end mb-6">
-        <button
-            wire:click="openUploadModal"
-            type="button"
-            class="btn-primary"
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4m8 0l-4-4m4 4l-4 4" />
-            </svg>
-            Upload Video Baru
-        </button>
-    </div>
-
+<x-super-admin-layout>
+    <div>
+        <!-- Page Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-love-900">Galeri Video</h1>
+            <button
+                wire:click="openUploadModal"
+                type="button"
+                class="btn-primary"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4m8 0l-4-4m4 4l-4 4" />
+                </svg>
+                Upload Video Baru
+            </button>
+        </div>
+ 
     <!-- Filter Section -->
     <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-love-100 transition-all duration-300 hover:shadow-xl">
         <div class="flex items-center gap-2 mb-4">
@@ -67,7 +69,7 @@
             </div>
         </div>
     </div>
-
+ 
     <!-- Videos Table area -->
     <div class="bg-white rounded-2xl shadow-lg border border-love-100 mb-6 overflow-hidden transition-all duration-300 hover:shadow-2xl" wire:ignore>
         <div class="p-6 border-b-2 border-love-100 bg-gradient-to-r from-love-50 to-love-100/50">
@@ -101,15 +103,15 @@
             </div>
         </div>
     </div>
-
+ 
     <!-- Upload Modal -->
     @if($showUploadModal)
         <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-love-900/40 backdrop-blur-sm transition-opacity" aria-hidden="true" wire:click="closeUploadModal"></div>
-
+ 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
+ 
                 <div class="relative inline-block align-middle bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-love-100">
                     <div class="bg-white px-6 pt-6 pb-4 sm:p-8">
                         <div class="flex justify-between items-center mb-6">
@@ -125,7 +127,7 @@
                                 </svg>
                             </button>
                         </div>
-
+ 
                         <!-- Upload Component -->
                         <livewire:video-upload-component />
                     </div>
@@ -133,12 +135,12 @@
             </div>
         </div>
     @endif
-
+ 
     <!-- Video Modal -->
     @if($selectedVideo)
         <livewire:video-modal-component :video="$selectedVideo" />
     @endif
-
+ 
     <!-- DataTables Script -->
     <script>
         function initDataTables() {
@@ -146,11 +148,11 @@
                 setTimeout(initDataTables, 100);
                 return;
             }
-
+ 
             if ($.fn.DataTable.isDataTable('#videosTable')) {
                 return;
             }
-
+ 
             const table = $('#videosTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -208,10 +210,10 @@
                     $('#videosTable tbody tr').addClass('fade-in');
                 }
             });
-
+ 
             window.videosTable = table;
-
-            setTimeout(() => {
+ 
+            setTimeout(function() {
                 const searchLabel = document.querySelector('.dataTables_filter label');
                 if (searchLabel) {
                     searchLabel.style.color = 'transparent';
@@ -227,7 +229,7 @@
                     paginateContainer.style.alignItems = 'center';
                     
                     const buttons = paginateContainer.querySelectorAll('span, li, a, button');
-                    buttons.forEach(btn => {
+                    buttons.forEach(function(btn) {
                         btn.style.display = 'inline-flex';
                         btn.style.alignItems = 'center';
                         btn.style.justifyContent = 'center';
@@ -235,38 +237,39 @@
                 }
             }, 100);
         }
-
+ 
         document.addEventListener('DOMContentLoaded', initDataTables);
-
+ 
         function getLivewireComponent() {
             const el = document.querySelector('[wire\\:id]');
             return el ? Livewire.find(el.getAttribute('wire:id')) : null;
         }
-
-        window.addEventListener('openVideoModal', e => {
+ 
+        window.addEventListener('openVideoModal', function(e) {
             const component = getLivewireComponent();
             if (component) component.openVideoModal(e.detail);
         });
-        window.addEventListener('openEditModal', e => {
+        window.addEventListener('openEditModal', function(e) {
             const component = getLivewireComponent();
             if (component) component.openEditModal(e.detail);
         });
-        window.addEventListener('openDeleteModal', e => {
+        window.addEventListener('openDeleteModal', function(e) {
             const component = getLivewireComponent();
             if (component) component.openDeleteModal(e.detail);
         });
-
+ 
         function setupLivewireListeners() {
             if (typeof Livewire === 'undefined' || !Livewire.find) {
                 setTimeout(setupLivewireListeners, 100);
                 return;
             }
-
-            Livewire.on('updatedFilterMonth', () => window.videosTable && window.videosTable.ajax.reload(null, false));
-            Livewire.on('updatedFilterStartDate', () => window.videosTable && window.videosTable.ajax.reload(null, false));
-            Livewire.on('updatedFilterEndDate', () => window.videosTable && window.videosTable.ajax.reload(null, false));
-            Livewire.on('refreshGrid', () => window.videosTable && window.videosTable.ajax.reload(null, false));
+ 
+            Livewire.on('updatedFilterMonth', function() { window.videosTable && window.videosTable.ajax.reload(null, false); });
+            Livewire.on('updatedFilterStartDate', function() { window.videosTable && window.videosTable.ajax.reload(null, false); });
+            Livewire.on('updatedFilterEndDate', function() { window.videosTable && window.videosTable.ajax.reload(null, false); });
+            Livewire.on('refreshGrid', function() { window.videosTable && window.videosTable.ajax.reload(null, false); });
         }
         setupLivewireListeners();
     </script>
-</div>
+    </div>
+</x-super-admin-layout>
