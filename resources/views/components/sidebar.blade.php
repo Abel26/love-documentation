@@ -56,8 +56,20 @@
                 @endif
             </a>
 
-            <!-- Galeri Foto (Super Admin Only) -->
+            <!-- Cloud Dashboard (Super Admin Only) -->
             @if(auth()->check() && auth()->user()->isSuperAdmin())
+                <a href="{{ route('cloud-dashboard.index') }}"
+                   class="{{ request()->routeIs('cloud-dashboard.*') ? 'bg-love-800 text-white border-l-4 border-love-400' : 'text-love-100 hover:bg-love-800 hover:text-white border-l-4 border-transparent' }} flex items-center gap-3 px-4 py-3 transition-all duration-200 group">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1 0H7a4 4 0 00-4-4V3a3 3 0 013-3h1m-1 8a2 2 0 012 2h6a2 2 0 012-2v-6a2 2 0 00-2-2H7a2 2 0 00-2 2v6z" />
+                    </svg>
+                    <span class="font-medium text-sm">Cloud Dashboard</span>
+                    @if(request()->routeIs('cloud-dashboard.*'))
+                        <span class="ml-auto w-1.5 h-1.5 bg-love-400 rounded-full"></span>
+                    @endif
+                </a>
+
+                <!-- Galeri Foto (Super Admin Only) -->
                 <a href="{{ route('images.index') }}"
                    class="{{ request()->routeIs('images.index') ? 'bg-love-800 text-white border-l-4 border-love-400' : 'text-love-100 hover:bg-love-800 hover:text-white border-l-4 border-transparent' }} flex items-center gap-3 px-4 py-3 transition-all duration-200 group">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

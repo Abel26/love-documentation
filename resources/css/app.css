@@ -504,3 +504,9 @@ body.sidebar-open {
         -ms-transform: translateZ(0);
     }
 }
+
+/* ========================================
+   CLOUD DASHBOARD STYLES
+   ======================================== */
+
+@import './cloud-dashboard.css';

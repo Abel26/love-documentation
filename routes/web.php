@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImageGroupController;
+use App\Http\Controllers\CloudDashboardController;
 use App\Http\Livewire\VideoIndexComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,12 @@ Route::middleware('auth')->group(function () {
 
 // Super Admin Routes
 Route::middleware(['auth', 'super_admin'])->group(function () {
+    // Cloud Dashboard Routes
+    Route::get('/cloud-dashboard', [CloudDashboardController::class, 'index'])->name('cloud-dashboard.index');
+    Route::get('/cloud-dashboard/stats', [CloudDashboardController::class, 'getStorageStats'])->name('cloud-dashboard.stats');
+    Route::post('/cloud-dashboard/check-capacity', [CloudDashboardController::class, 'checkUploadCapacity'])->name('cloud-dashboard.check-capacity');
+    Route::post('/cloud-dashboard/refresh-cache', [CloudDashboardController::class, 'refreshCache'])->name('cloud-dashboard.refresh-cache');
+    
     // Image Gallery Routes
     Route::get('/images', [ImageController::class, 'index'])->name('images.index');
     // DataTables AJAX endpoint

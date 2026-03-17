@@ -1,0 +1,494 @@
+/* ========================================
+   CLOUD DASHBOARD - HACKER STYLE THEME
+   ======================================== */
+
+/* Import Hacker Font */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* Hacker Font Class */
+.font-hacker {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Hacker Card Style */
+.hacker-card {
+    background: linear-gradient(135deg, rgba(253, 245, 242, 0.95) 0%, rgba(252, 232, 224, 0.98) 100%);
+    border: 1px solid rgba(217, 107, 79, 0.3);
+    box-shadow: 0 4px 20px rgba(217, 107, 79, 0.1), 
+                inset 0 0 60px rgba(0, 0, 0, 0.02);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.hacker-card:hover {
+    border-color: rgba(217, 107, 79, 0.6);
+    box-shadow: 0 8px 30px rgba(217, 107, 79, 0.2), 
+                inset 0 0 60px rgba(0, 0, 0, 0.02);
+    transform: translateY(-2px);
+}
+
+/* Progress Bar Styles */
+.hacker-progress {
+    background: rgba(139, 61, 49, 0.1);
+    border: 1px solid rgba(217, 107, 79, 0.3);
+    overflow: hidden;
+    position: relative;
+    border-radius: 9999px;
+}
+
+.hacker-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 0, 0, 0.05) 10px,
+        rgba(0, 0, 0, 0.05) 20px
+    );
+    animation: progressStripes 1s linear infinite;
+}
+
+@keyframes progressStripes {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 20px; }
+}
+
+.hacker-progress-bar {
+    background: linear-gradient(90deg, #D96B4F 0%, #EA8669 100%);
+    box-shadow: 0 0 10px rgba(217, 107, 79, 0.5);
+    transition: width 0.5s ease-in-out;
+    border-radius: 9999px;
+}
+
+/* Glow Effects */
+.hacker-glow {
+    text-shadow: 0 0 10px rgba(217, 107, 79, 0.8),
+                 0 0 20px rgba(217, 107, 79, 0.6),
+                 0 0 30px rgba(217, 107, 79, 0.4);
+}
+
+.hacker-border-glow {
+    box-shadow: 0 0 10px rgba(217, 107, 79, 0.5),
+                0 0 20px rgba(217, 107, 79, 0.3),
+                inset 0 0 10px rgba(217, 107, 79, 0.1);
+}
+
+/* Animated Background */
+.hacker-bg-animated {
+    background: linear-gradient(-45deg, #FDF5F2, #FCE8E0, #F8D0C2);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Terminal-style Text */
+.hacker-terminal {
+    background: #0D0D0D;
+    color: #00FF00;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #1A1A1A;
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+.hacker-terminal::before {
+    content: '>';
+    color: #00FF00;
+    margin-right: 0.5rem;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Status Indicators */
+.hacker-status-online {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #00FF00;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+}
+
+.hacker-status-online::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    background: #00FF00;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.hacker-status-warning {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #FFFF00;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+}
+
+.hacker-status-warning::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    background: #FFFF00;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.hacker-status-error {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #FF0000;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+}
+
+.hacker-status-error::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    background: #FF0000;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* Scanline Effect */
+.hacker-scanline {
+    position: relative;
+    overflow: hidden;
+}
+
+.hacker-scanline::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(217, 107, 79, 0.3);
+    animation: scanline 3s linear infinite;
+}
+
+@keyframes scanline {
+    0% { top: 0; opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* Data Stream Animation */
+.hacker-data-stream {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(217, 107, 79, 0.1) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: dataStream 2s linear infinite;
+}
+
+@keyframes dataStream {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Glitch Effect */
+.hacker-glitch {
+    position: relative;
+}
+
+.hacker-glitch::before,
+.hacker-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hacker-glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 #FF00FF;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-1 5s infinite linear alternate-reverse;
+}
+
+.hacker-glitch::after {
+    left: -2px;
+    text-shadow: -1px 0 #00FFFF;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-1 {
+    0%, 100% { clip: rect(30px, 9999px, 10px, 0); }
+    25% { clip: rect(70px, 9999px, 90px, 0); }
+    50% { clip: rect(20px, 9999px, 60px, 0); }
+    75% { clip: rect(80px, 9999px, 10px, 0); }
+}
+
+@keyframes glitch-2 {
+    0%, 100% { clip: rect(60px, 9999px, 10px, 0); }
+    25% { clip: rect(10px, 9999px, 50px, 0); }
+    50% { clip: rect(90px, 9999px, 30px, 0); }
+    75% { clip: rect(30px, 9999px, 70px, 0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+    .hacker-card {
+        padding: 1rem;
+    }
+    
+    .font-hacker {
+        font-size: 0.875rem;
+    }
+}
+
+/* Loading Spinner */
+.hacker-spinner {
+    border: 3px solid rgba(217, 107, 79, 0.1);
+    border-top: 3px solid #D96B4F;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Button Hover Effects */
+.hacker-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.hacker-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.hacker-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Tooltip */
+.hacker-tooltip {
+    position: relative;
+}
+
+.hacker-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0D0D0D;
+    color: #00FF00;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.hacker-tooltip:hover::after {
+    opacity: 1;
+}
+
+/* Badge Styles */
+.hacker-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.hacker-badge-success {
+    background: rgba(0, 255, 0, 0.1);
+    color: #00FF00;
+    border: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+.hacker-badge-warning {
+    background: rgba(255, 255, 0, 0.1);
+    color: #FFFF00;
+    border: 1px solid rgba(255, 255, 0, 0.3);
+}
+
+.hacker-badge-error {
+    background: rgba(255, 0, 0, 0.1);
+    color: #FF0000;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+/* Icon Animations */
+.hacker-icon-pulse {
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.hacker-icon-rotate {
+    animation: iconRotate 10s linear infinite;
+}
+
+@keyframes iconRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Grid Pattern Background */
+.hacker-grid-bg {
+    background-image: 
+        linear-gradient(rgba(217, 107, 79, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(217, 107, 79, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Custom Scrollbar */
+.hacker-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.hacker-scrollbar::-webkit-scrollbar-track {
+    background: rgba(217, 107, 79, 0.1);
+    border-radius: 4px;
+}
+
+.hacker-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(217, 107, 79, 0.5);
+    border-radius: 4px;
+}
+
+.hacker-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(217, 107, 79, 0.7);
+}
+
+/* Number Counter Animation */
+.hacker-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.hacker-counter.updating {
+    color: #00FF00;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+/* Chart Bar Animation */
+.hacker-chart-bar {
+    transition: height 0.5s ease-out, background-color 0.3s ease;
+}
+
+.hacker-chart-bar:hover {
+    filter: brightness(1.1);
+    transform: scaleY(1.05);
+    transform-origin: bottom;
+}
+
+/* Modal Backdrop */
+.hacker-modal-backdrop {
+    background: rgba(13, 13, 13, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+/* Input Focus Effects */
+.hacker-input:focus {
+    outline: none;
+    border-color: #D96B4F;
+    box-shadow: 0 0 0 3px rgba(217, 107, 79, 0.2);
+}
+
+/* Link Hover Effects */
+.hacker-link {
+    position: relative;
+    text-decoration: none;
+}
+
+.hacker-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #D96B4F, #EA8669);
+    transition: width 0.3s ease;
+}
+
+.hacker-link:hover::after {
+    width: 100%;
+}
+
+/* Notification Badge */
+.hacker-notification {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    background: #FF0000;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    animation: notificationPulse 2s infinite;
+}
+
+@keyframes notificationPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+}
