@@ -97,7 +97,7 @@ return [
 
     'temporary_file_upload' => [
         'disk' => 'local',     // Gunakan disk local untuk temporary uploads
-        'rules' => ['file', 'mimes:jpeg,jpg,png,gif,webp'], // Tidak ada batasan ukuran file
+        'rules' => ['file'], // Menerima semua jenis file, validasi spesifik di komponen masing-masing
         'directory' => 'livewire-tmp',   // Directory untuk temporary uploads
         'middleware' => null,  // Example: 'throttle:5,1'             Default: 'throttle:60,1'
         'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs.

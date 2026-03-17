@@ -8,7 +8,7 @@ use Illuminate\View\View;
 class SuperAdminLayout extends Component
 {
     /**
-     * Get the view / contents that represents the component.
+     * Get view / contents that represents component.
      */
     public function render(): View
     {

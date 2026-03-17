@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\ImageIndexComponent;
+use App\Http\Livewire\VideoIndexComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,11 @@ Route::middleware(['auth', 'super_admin'])->group(function () {
     Route::get('/images', ImageIndexComponent::class)->name('images.index');
     // DataTables AJAX endpoint
     Route::get('/livewire/images-table', [ImageIndexComponent::class, 'getImagesData'])->name('livewire.images-table');
+    
+    // Video Gallery Routes
+    Route::get('/videos', VideoIndexComponent::class)->name('videos.index');
+    // DataTables AJAX endpoint for videos
+    Route::get('/livewire/videos-table', [VideoIndexComponent::class, 'getVideosData'])->name('livewire.videos-table');
 });
 
 require __DIR__.'/auth.php';
