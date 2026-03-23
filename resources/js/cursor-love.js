@@ -142,14 +142,14 @@ function handleLoveClick(e, love) {
  */
 function createExplosion(x, y) {
     for (let i = 0; i < EXPLOSION_CONFIG.particleCount; i++) {
-        createParticle(x, y);
+        createParticle(x, y, i);
     }
 }
 
 /**
  * Membuat partikel ledakan
  */
-function createParticle(x, y) {
+function createParticle(x, y, i) {
     const particle = document.createElement('div');
     particle.className = 'explosion-particle';
     

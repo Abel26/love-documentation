@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 /* ========================================
+   GEN-Z UI FONTS
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ========================================
    DATATABLE PROFESSIONAL STYLING
    ======================================== */
 
@@ -502,6 +508,554 @@ body.sidebar-open {
         -webkit-transform: translateZ(0);
         -moz-transform: translateZ(0);
         -ms-transform: translateZ(0);
+    }
+}
+
+/* ========================================
+   FLATPICKR CUSTOM STYLING - LOVE THEME
+   ======================================== */
+
+/* Flatpickr Container */
+.flatpickr-calendar {
+    @apply bg-white rounded-2xl shadow-2xl border border-love-100;
+    font-family: 'Figtree', sans-serif;
+    width: 320px !important;
+    box-shadow: 0 20px 25px -5px rgba(217, 107, 79, 0.1), 0 10px 10px -5px rgba(217, 107, 79, 0.04);
+}
+
+/* Calendar Header - Month & Year */
+.flatpickr-months {
+    @apply bg-gradient-to-r from-love-500 to-love-600 text-white rounded-t-2xl;
+    padding: 1rem;
+}
+
+.flatpickr-month {
+    @apply text-white;
+}
+
+.flatpickr-current-month {
+    @apply text-white font-bold text-lg;
+    color: white !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    @apply bg-love-600 text-white border-love-400;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+    @apply text-white hover:bg-love-700;
+}
+
+.flatpickr-current-month input.cur-year {
+    @apply bg-love-600 text-white border-love-400 font-bold;
+    color: white !important;
+}
+
+/* Navigation Arrows */
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    @apply text-white hover:bg-love-700 rounded-lg;
+    padding: 0.5rem;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+    @apply fill-love-100;
+}
+
+.flatpickr-months .flatpickr-prev-month svg,
+.flatpickr-months .flatpickr-next-month svg {
+    @apply fill-white;
+}
+
+/* Weekdays */
+.flatpickr-weekdays {
+    @apply bg-love-50;
+}
+
+.flatpickr-weekday {
+    @apply text-love-700 font-semibold text-sm uppercase tracking-wider;
+}
+
+/* Days */
+.flatpickr-days {
+    @apply p-2;
+}
+
+.flatpickr-day {
+    @apply text-love-900 font-medium text-sm rounded-lg transition-all duration-200;
+    border: 1px solid transparent;
+}
+
+.flatpickr-day:hover {
+    @apply bg-love-100 text-love-900;
+}
+
+.flatpickr-day.today {
+    @apply border-love-500 bg-love-50 text-love-900 font-bold;
+}
+
+.flatpickr-day.selected {
+    @apply bg-gradient-to-r from-love-500 to-love-600 text-white font-bold;
+    border-color: #D96B4F;
+}
+
+.flatpickr-day.selected:hover {
+    @apply from-love-600 to-love-700;
+}
+
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+    @apply bg-gradient-to-r from-love-500 to-love-600 text-white font-bold;
+}
+
+.flatpickr-day.inRange {
+    @apply bg-love-200 text-love-900;
+}
+
+.flatpickr-day.disabled {
+    @apply text-love-300 cursor-not-allowed;
+}
+
+.flatpickr-day.disabled:hover {
+    @apply bg-transparent text-love-300;
+}
+
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+    @apply text-love-400;
+}
+
+/* Time picker (if needed) */
+.flatpickr-time {
+    @apply border-t border-love-200 bg-love-50;
+}
+
+.flatpickr-time .numInputWrapper {
+    @apply text-love-900;
+}
+
+.flatpickr-time .flatpickr-am-pm {
+    @apply text-love-700;
+}
+
+/* Alt Input (display input) */
+.flatpickr-input {
+    @apply w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all;
+    @apply focus:border-love-500 focus:ring-4 focus:ring-love-100 focus:outline-none;
+    @apply bg-white;
+    cursor: pointer;
+}
+
+.flatpickr-input:focus {
+    @apply border-love-500 ring-4 ring-love-100 outline-none;
+}
+
+/* Disabled state */
+.flatpickr-input:disabled {
+    @apply bg-love-50 border-love-100 text-love-400 cursor-not-allowed;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .flatpickr-calendar {
+        width: 280px !important;
+        font-size: 14px;
+    }
+
+    .flatpickr-day {
+        @apply text-xs;
+    }
+}
+
+/* ========================================
+   SCROLLBAR UTILITIES
+   ======================================== */
+
+@layer utilities {
+    /* Thin scrollbar */
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        @apply bg-love-300 rounded-full;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        @apply bg-love-400;
+    }
+
+    /* Scrollbar with custom colors */
+    .scrollbar-thumb-love-300::-webkit-scrollbar-thumb {
+        @apply bg-love-300 rounded-full;
+    }
+    .scrollbar-thumb-love-300::-webkit-scrollbar-thumb:hover {
+        @apply bg-love-400;
+    }
+    .scrollbar-track-transparent::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+}
+
+/* ========================================
+   GEN-Z UI COMPONENTS & UTILITIES
+   ======================================== */
+
+@layer components {
+    /* ========================================
+       GEN-Z STATS TOKENS
+       ======================================== */
+
+    .stats-token {
+        @apply flex items-center justify-center gap-3 px-6 py-4 rounded-3xl shadow-lg transition-all duration-300;
+        @apply hover:scale-105 hover:shadow-xl;
+    }
+
+    .stats-token-teal {
+        @apply bg-gradient-to-br from-teal-400 to-teal-500 text-white;
+    }
+
+    .stats-token-yellow {
+        @apply bg-gradient-to-br from-yellow-400 to-yellow-500 text-white;
+    }
+
+    .stats-token-lavender {
+        @apply bg-gradient-to-br from-lavender-400 to-lavender-500 text-white;
+    }
+
+    .stats-number {
+        @apply text-4xl font-extrabold;
+    }
+
+    .stats-icon {
+        @apply text-4xl;
+    }
+
+    /* ========================================
+       GEN-Z PASTEL BACKGROUNDS
+       ======================================== */
+
+    .bg-pastel-teal {
+        @apply bg-teal-50;
+    }
+
+    .bg-pastel-lavender {
+        @apply bg-lavender-50;
+    }
+
+    .bg-pastel-yellow {
+        @apply bg-yellow-50;
+    }
+
+    .bg-pastel-coral {
+        @apply bg-coral-50;
+    }
+
+/* ========================================
+       GEN-Z MONTH FILTER PILLS
+       ======================================== */
+
+    .month-filter-container {
+        @apply flex items-center gap-3 overflow-x-auto pb-2;
+        @apply scrollbar-thin scrollbar-thumb-love-300 scrollbar-track-transparent;
+    }
+
+    .month-pill {
+        @apply px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300;
+        @apply whitespace-nowrap cursor-pointer;
+        @apply hover:scale-105 hover:shadow-md;
+    }
+
+    .month-pill-teal {
+        @apply bg-pastel-teal text-teal-700 border-2 border-teal-200;
+    }
+
+    .month-pill-teal.active {
+        @apply bg-teal-500 text-white border-teal-500 shadow-lg shadow-teal-200;
+    }
+
+    .month-pill-lavender {
+        @apply bg-pastel-lavender text-lavender-700 border-2 border-lavender-200;
+    }
+
+    .month-pill-lavender.active {
+        @apply bg-lavender-500 text-white border-lavender-500 shadow-lg shadow-lavender-200;
+    }
+
+    .month-pill-yellow {
+        @apply bg-pastel-yellow text-yellow-700 border-2 border-yellow-200;
+    }
+
+    .month-pill-yellow.active {
+        @apply bg-yellow-500 text-white border-yellow-500 shadow-lg shadow-yellow-200;
+    }
+
+    .month-pill-coral {
+        @apply bg-coral-50 text-coral-700 border-2 border-coral-200;
+    }
+
+    .month-pill-coral.active {
+        @apply bg-coral-500 text-white border-coral-500 shadow-lg shadow-coral-200;
+    }
+
+    /* ========================================
+       GEN-Z MASONRY GRID
+       ======================================== */
+
+    .masonry-grid {
+        @apply columns-1 sm:columns-2 lg:columns-3 gap-4;
+    }
+
+    .masonry-item {
+        @apply break-inside-avoid mb-4;
+    }
+
+    .masonry-card {
+        @apply rounded-3xl overflow-hidden shadow-lg transition-all duration-300;
+        @apply hover:shadow-xl hover:-translate-y-1;
+    }
+
+    /* ========================================
+       GEN-Z QUOTE BLOCK
+       ======================================== */
+
+    .quote-block {
+        @apply rounded-3xl p-8 shadow-lg transition-all duration-300;
+        @apply hover:shadow-xl hover:scale-[1.01];
+        @apply bg-gradient-to-br from-white to-bg-cream border border-love-100;
+    }
+
+    .quote-text {
+        @apply font-serif text-2xl italic leading-relaxed text-teal-800;
+    }
+
+    .quote-author {
+        @apply font-serif text-lg text-lavender-600 mt-4 block;
+    }
+
+    .quote-date-bar {
+        @apply mt-6 pt-4 border-t-2 border-teal-200 from-teal-400 to-lavender-400;
+    }
+
+    .quote-date {
+        @apply font-mono text-sm text-gray-600;
+    }
+
+    .quote-hashtag {
+        @apply text-coral-500 font-semibold text-sm uppercase tracking-wider;
+    }
+
+    /* ========================================
+       GEN-Z CTA BUTTONS
+       ======================================== */
+
+    .btn-genz-primary {
+        @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold text-white;
+        @apply bg-gradient-to-r from-coral-400 to-coral-500 shadow-lg shadow-coral-200;
+        @apply transition-all duration-300;
+        @apply hover:scale-105 hover:shadow-xl hover:shadow-coral-300;
+        @apply active:scale-95;
+    }
+
+    .btn-genz-whatsapp {
+        @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-white;
+        @apply bg-green-500 shadow-lg shadow-green-200;
+        @apply transition-all duration-300;
+        @apply hover:scale-105 hover:bg-green-600 hover:shadow-xl;
+        @apply active:scale-95;
+    }
+
+    .btn-genz-secondary {
+        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-medium;
+        @apply bg-white border-2 border-love-200 text-love-600 shadow-sm;
+        @apply transition-all duration-300;
+        @apply hover:scale-105 hover:border-love-400 hover:shadow-md;
+        @apply active:scale-95;
+    }
+
+    .btn-genz-tertiary {
+        @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-medium;
+        @apply bg-love-50 text-love-700;
+        @apply transition-all duration-300;
+        @apply hover:scale-105 hover:bg-love-100;
+        @apply active:scale-95;
+    }
+
+    /* ========================================
+       GEN-Z MEMORY CARD
+       ======================================== */
+
+    .memory-card {
+        @apply rounded-3xl overflow-hidden shadow-xl transition-all duration-500;
+        @apply bg-white border border-love-100;
+    }
+
+    .memory-card:hover {
+        @apply scale-[1.01] shadow-2xl;
+    }
+
+    .memory-image-container {
+        @apply relative overflow-hidden;
+    }
+
+    .memory-image {
+        @apply w-full h-full object-cover transition-transform duration-700;
+    }
+
+    .memory-card:hover .memory-image {
+        @apply scale-110;
+    }
+
+    .memory-overlay {
+        @apply absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent;
+    }
+
+    /* ========================================
+       GEN-Z PLACEHOLDER FRAME
+       ======================================== */
+
+    .placeholder-frame {
+        @apply rounded-3xl border-4 border-dashed border-love-200 bg-love-50/50;
+        @apply flex flex-col items-center justify-center p-8;
+        @apply transition-all duration-300;
+        @apply hover:border-love-400 hover:bg-love-100/50;
+    }
+
+    .placeholder-icon {
+        @apply text-love-300 text-5xl mb-4;
+    }
+
+    .placeholder-text {
+        @apply text-love-500 font-medium text-center;
+    }
+
+    .placeholder-cta {
+        @apply mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-full;
+        @apply bg-gradient-to-r from-teal-400 to-teal-500 text-white font-semibold;
+        @apply shadow-lg shadow-teal-200;
+        @apply transition-all duration-300;
+        @apply hover:scale-105 hover:shadow-xl;
+    }
+
+    /* ========================================
+       GEN-Z NAVBAR
+       ======================================== */
+
+    .genz-navbar {
+        @apply bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50;
+        @apply border-b border-love-200;
+    }
+
+    .genz-nav-link {
+        @apply inline-flex items-center gap-1.5 px-3 py-2 border-b-2 border-transparent;
+        @apply text-sm font-medium leading-5 transition-all duration-300;
+        @apply hover:text-love-900 hover:border-love-300;
+    }
+
+    .genz-nav-link.active {
+        @apply border-teal-500 text-teal-700;
+    }
+
+    .genz-nav-link.active-teal {
+        @apply border-teal-500 text-teal-700;
+    }
+
+    .genz-nav-link.active-lavender {
+        @apply border-lavender-500 text-lavender-700;
+    }
+
+    .genz-nav-link.active-yellow {
+        @apply border-yellow-500 text-yellow-700;
+    }
+
+    /* ========================================
+       GEN-Z GLASSMORPHISM
+       ======================================== */
+
+    .glassmorphism {
+        @apply bg-white/60 backdrop-blur-md rounded-2xl;
+        @apply border border-white/50 shadow-lg;
+    }
+
+    .glassmorphism-dark {
+        @apply bg-black/30 backdrop-blur-md rounded-2xl;
+        @apply border border-white/20;
+    }
+}
+
+@layer utilities {
+    /* ========================================
+       GEN-Z TEXT GRADIENTS
+       ======================================== */
+
+    .text-gradient-teal {
+        @apply bg-gradient-to-r from-teal-500 to-teal-600 bg-clip-text text-transparent;
+    }
+
+    .text-gradient-lavender {
+        @apply bg-gradient-to-r from-lavender-500 to-lavender-600 bg-clip-text text-transparent;
+    }
+
+    .text-gradient-coral {
+        @apply bg-gradient-to-r from-coral-500 to-coral-600 bg-clip-text text-transparent;
+    }
+
+    .text-gradient-yellow {
+        @apply bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent;
+    }
+
+    /* ========================================
+       GEN-Z BACKGROUND GRADIENTS
+       ======================================== */
+
+    .bg-genz-layered {
+        @apply bg-gradient-to-br from-bg-cream via-bg-soft-white to-bg-pastel-teal;
+    }
+
+    .bg-genz-warm {
+        @apply bg-gradient-to-br from-bg-pastel-yellow via-bg-cream to-bg-pastel-lavender;
+    }
+
+    .bg-genz-cool {
+        @apply bg-gradient-to-br from-bg-pastel-teal via-bg-soft-white to-bg-pastel-lavender;
+    }
+
+    /* ========================================
+       GEN-Z SHADOWS
+       ======================================== */
+
+    .shadow-genz-teal {
+        box-shadow: 0 10px 40px -10px rgba(20, 184, 166, 0.3);
+    }
+
+    .shadow-genz-lavender {
+        box-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.3);
+    }
+
+    .shadow-genz-coral {
+        box-shadow: 0 10px 40px -10px rgba(249, 115, 22, 0.3);
+    }
+
+    .shadow-genz-yellow {
+        box-shadow: 0 10px 40px -10px rgba(234, 188, 21, 0.3);
+    }
+
+    /* ========================================
+       GEN-Z BORDER GRADIENTS
+       ======================================== */
+
+    .border-gradient-teal {
+        border-image: linear-gradient(to right, #2DD4BF, #14B8A6) 1;
+    }
+
+    .border-gradient-lavender {
+        border-image: linear-gradient(to right, #C4B5FD, #8B5CF6) 1;
+    }
+
+    .border-gradient-coral {
+        border-image: linear-gradient(to right, #FB923C, #F97316) 1;
     }
 }
 

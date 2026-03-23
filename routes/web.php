@@ -5,6 +5,8 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImageGroupController;
 use App\Http\Controllers\CloudDashboardController;
 use App\Http\Livewire\VideoIndexComponent;
+use App\Http\Livewire\UserGalleryComponent;
+use App\Http\Livewire\InteractiveMapComponent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,12 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login');
 
 Route::get('/dashboard', function () {
+    if (auth()->check() && auth()->user()->isSuperAdmin()) {
+        return redirect()->route('cloud-dashboard.index');
+    }
+    if (auth()->check() && auth()->user()->isUser()) {
+        return redirect()->route('user.gallery');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -28,6 +36,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// User Routes (authenticated, non-super_admin)
+Route::middleware(['auth'])->group(function () {
+    // User Gallery - Redirect user role to gallery
+    Route::get('/gallery', UserGalleryComponent::class)->name('user.gallery');
+    
+    // Interactive Map
+    Route::get('/map', InteractiveMapComponent::class)->name('user.map');
+    
+    // User Image Group Detail
+    Route::get('/image-groups/{uuid}/user-view', [ImageGroupController::class, 'userShow'])->name('image-groups.user-view');
+    
+    // User Video Routes
+    Route::get('/videos/user', function () {
+        return view('livewire.user-video-gallery-component');
+    })->name('user.videos');
+    
+    // User Favorites Routes
+    Route::get('/favorites', function () {
+        return view('livewire.user-favorites-component');
+    })->name('user.favorites');
 });
 
 // Super Admin Routes
