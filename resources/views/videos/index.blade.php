@@ -1,5 +1,4 @@
-<x-super-admin-layout>
-    <div>
+<div>
         <!-- Page Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-love-900">Galeri Video</h1>
@@ -43,7 +42,7 @@
                     id="filterStartDate"
                     type="date"
                     wire:model="filterStartDate"
-                    class="w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all focus:border-love-500 focus:ring-4 focus:ring-love-100"
+                    class="date-start flatpickr-input w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all focus:border-love-500 focus:ring-4 focus:ring-love-100"
                 >
             </div>
             <div>
@@ -52,7 +51,7 @@
                     id="filterEndDate"
                     type="date"
                     wire:model="filterEndDate"
-                    class="w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all focus:border-love-500 focus:ring-4 focus:ring-love-100"
+                    class="date-end flatpickr-input w-full px-4 py-2.5 border-2 border-love-200 rounded-xl font-medium text-sm text-love-900 transition-all focus:border-love-500 focus:ring-4 focus:ring-love-100"
                 >
             </div>
             <div class="flex items-end">
@@ -272,4 +271,3 @@
         setupLivewireListeners();
     </script>
     </div>
-</x-super-admin-layout>

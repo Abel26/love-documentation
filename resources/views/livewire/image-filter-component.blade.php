@@ -25,19 +25,19 @@
                 <label class="block text-sm font-medium text-love-900 mb-2">
                     Filter Berdasarkan Tanggal
                 </label>
-                <div class="flex space-x-2">
+                <div class="date-range-group flex space-x-2">
                     <input
                         type="date"
                         wire:model="filterStartDate"
                         wire:change="applyDateFilter"
-                        class="flex-1 px-4 py-3 border border-love-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-love-500 focus:border-transparent"
+                        class="date-start flatpickr-input flex-1 px-4 py-3 border border-love-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-love-500 focus:border-transparent"
                     />
                     <span class="self-center text-love-700">-</span>
                     <input
                         type="date"
                         wire:model="filterEndDate"
                         wire:change="applyDateFilter"
-                        class="flex-1 px-4 py-3 border border-love-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-love-500 focus:border-transparent"
+                        class="date-end flatpickr-input flex-1 px-4 py-3 border border-love-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-love-500 focus:border-transparent"
                     />
                 </div>
             </div>

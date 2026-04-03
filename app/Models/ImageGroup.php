@@ -46,6 +46,11 @@ class ImageGroup extends Model
         'event_date',
         'event_month',
         'image_count',
+        'latitude',
+        'longitude',
+        'location_name',
+        'location_address',
+        'show_on_map',
     ];
 
     /**
